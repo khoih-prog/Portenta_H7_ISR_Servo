@@ -1,0 +1,50 @@
+#######################################
+# Data types (KEYWORD1)
+#######################################
+
+Portenta_H7_ISR_Servo KEYWORD1
+Portenta_H7_ISR_Servos  KEYWORD1
+Portenta_H7_FastTimerInterrupt	KEYWORD1
+Portenta_H7_FastTimer	KEYWORD1
+
+portenta_H7_timer_callback  KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+setFrequency	KEYWORD2
+attachInterruptInterval	KEYWORD2
+detachInterrupt	KEYWORD2
+reattachInterrupt	KEYWORD2
+useTimer  KEYWORD2
+init  KEYWORD2
+run KEYWORD2
+setupServo  KEYWORD2
+setPosition  KEYWORD2
+getPosition  KEYWORD2
+setPulseWidth  KEYWORD2
+getPulseWidth  KEYWORD2
+deleteServo  KEYWORD2
+isEnabled KEYWORD2
+enable  KEYWORD2
+disable KEYWORD2
+enableAll KEYWORD2
+disableAll  KEYWORD2
+toggle  KEYWORD2
+getNumServos  KEYWORD2
+getNumAvailableServos KEYWORD2
+Portenta_H7_ISR_Servo_Handler KEYWORD2
+
+#######################################
+# Literals (LITERAL1)
+#######################################
+
+PORTENTA_H7_WRONG_PIN LITERAL1
+
+MIN_PULSE_WIDTH LITERAL1
+MAX_PULSE_WIDTH LITERAL1
+DEFAULT_PULSE_WIDTH LITERAL1
+REFRESH_INTERVAL  LITERAL1
+
+
