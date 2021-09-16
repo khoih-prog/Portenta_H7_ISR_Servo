@@ -25,7 +25,9 @@
 #ifndef Portenta_H7_ISR_Servo_H
 #define Portenta_H7_ISR_Servo_H
 
-#if !( ( defined(ARDUINO_PORTENTA_H7_M7) || defined(ARDUINO_PORTENTA_H7_M4) ) && defined(ARDUINO_ARCH_MBED) )
+#if ( ( defined(ARDUINO_PORTENTA_H7_M7) || defined(ARDUINO_PORTENTA_H7_M4) ) && defined(ARDUINO_ARCH_MBED) )
+  #warning Use MBED ARDUINO_PORTENTA_H7
+#else
   #error This code is intended to run on the MBED ARDUINO_PORTENTA_H7 platform! Please check your Tools->Board setting.
 #endif
 
@@ -45,11 +47,31 @@
   #endif
 #endif
 
+/////////////////////////////////////////////////////
+
+#if defined(BOARD_NAME)
+  #undef BOARD_NAME
+#endif
+
+#if defined(CORE_CM7)
+  #warning Using Portenta H7 M7 core
+  #define BOARD_NAME              "PORTENTA_H7_M7"
+#else
+  #warning Using Portenta H7 M4 core
+  #define BOARD_NAME              "PORTENTA_H7_M4"
+#endif
+
+/////////////////////////////////////////////////////
+  
 #include "Portenta_H7_ISR_Servo_Debug.h"
 #include "Portenta_H7_FastTimerInterrupt.h"
 
+/////////////////////////////////////////////////////
+
 #define PORTENTA_H7_MAX_PIN           NUM_DIGITAL_PINS
 #define PORTENTA_H7_WRONG_PIN         255
+
+/////////////////////////////////////////////////////
 
 // From Servo.h - Copyright (c) 2009 Michael Margolis.  All right reserved.
 
@@ -59,6 +81,8 @@
 #define REFRESH_INTERVAL        20000     // minumim time to refresh servos in microseconds 
 
 extern void Portenta_H7_ISR_Servo_Handler();
+
+/////////////////////////////////////////////////////
 
 class Portenta_H7_ISR_Servo
 {
@@ -79,8 +103,12 @@ class Portenta_H7_ISR_Servo
         delete Portenta_H7_ITimer;
       }
     }
+    
+    /////////////////////////////////////////////////////
 
     void run();
+    
+    /////////////////////////////////////////////////////
 
     // useTimer select which timer (0-3) of Portenta_H7 to use for Servos
     //Return true if timerN0 in range
@@ -89,6 +117,8 @@ class Portenta_H7_ISR_Servo
       _timerNo = timerNo;
       return true;
     }
+    
+    /////////////////////////////////////////////////////
 
     // Bind servo to the timer and pin, return servoIndex
     int setupServo(uint8_t pin, int min = MIN_PULSE_WIDTH, int max = MAX_PULSE_WIDTH);
@@ -134,20 +164,27 @@ class Portenta_H7_ISR_Servo
 
     // returns the number of used servos
     int getNumServos();
+    
+    /////////////////////////////////////////////////////
 
     // returns the number of available servos
-    int getNumAvailableServos() {
+    int getNumAvailableServos() 
+    {
       return MAX_SERVOS - numServos;
     };
+    
+    /////////////////////////////////////////////////////
 
   private:
 
     // Use 10 microsecs timer, just fine enough to control Servo, normally requiring pulse width (PWM) 500-2000us in 20ms.
 #define TIMER_INTERVAL_MICRO        10
 
+    /////////////////////////////////////////////////////
+    
     void init()
     {
-      Portenta_H7_ITimer = new Portenta_H7FastTimer(_timerNo);
+      Portenta_H7_ITimer = new Portenta_H7_FastTimer(_timerNo);
 
       // Interval in microsecs
       if ( Portenta_H7_ITimer && Portenta_H7_ITimer->attachInterruptInterval(TIMER_INTERVAL_MICRO, (portenta_H7_timer_callback) Portenta_H7_ISR_Servo_Handler ) )
@@ -164,7 +201,7 @@ class Portenta_H7_ISR_Servo
         servo[servoIndex].count    = 0;
         servo[servoIndex].enabled  = false;
         // Intentional bad pin
-        servo[servoIndex].pin      = Portenta_H7_WRONG_PIN;
+        servo[servoIndex].pin      = PORTENTA_H7_WRONG_PIN;
       }
 
       numServos   = 0;
@@ -172,9 +209,13 @@ class Portenta_H7_ISR_Servo
       // Init timerCount
       timerCount  = 1;
     }
+    
+    /////////////////////////////////////////////////////
 
     // find the first available slot
     int findFirstFreeSlot();
+    
+    /////////////////////////////////////////////////////
 
     typedef struct
     {
@@ -185,6 +226,8 @@ class Portenta_H7_ISR_Servo
       uint16_t      min;
       uint16_t      max;
     } servo_t;
+    
+    /////////////////////////////////////////////////////
 
     volatile servo_t servo[MAX_SERVOS];
 
@@ -199,11 +242,14 @@ class Portenta_H7_ISR_Servo
     volatile unsigned long timerCount;
 
     // For Portenta_H7 timer
-    TIM_TypeDef*      _timerNo;
-    Portenta_H7FastTimer*   Portenta_H7_ITimer;
+    TIM_TypeDef*            _timerNo;
+    Portenta_H7_FastTimer*  Portenta_H7_ITimer;
 };
+
+/////////////////////////////////////////////////////
 
 extern Portenta_H7_ISR_Servo Portenta_H7_ISR_Servos;  // create servo object to control up to 16 servos
 
+/////////////////////////////////////////////////////
 
 #endif

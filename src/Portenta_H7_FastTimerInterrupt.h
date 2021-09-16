@@ -33,6 +33,12 @@
   #define PORTENTA_H7_ISR_SERVO_VERSION       "Portenta_H7_ISR_Servo v1.0.0"
 #endif
 
+///////////////////////////////////////////
+
+#include "stm32/HardwareTimer.h"
+
+///////////////////////////////////////////
+
 #include "Portenta_H7_ISR_Servo_Debug.h"
 
 #if defined(TIMER_SERVO)
@@ -50,6 +56,8 @@ typedef Portenta_H7_FastTimerInterrupt Portenta_H7_FastTimer;
 
 typedef void (*portenta_H7_timer_callback)  ();
 
+/////////////////////////////////////////////////////
+
 class Portenta_H7_FastTimerInterrupt
 {
   private:
@@ -61,10 +69,14 @@ class Portenta_H7_FastTimerInterrupt
     uint64_t          _timerCount;      // count to activate timer
     
     portenta_H7_timer_callback _callback;        // pointer to the callback function
+    
+    /////////////////////////////////////////////////////
 
   public:
+  
+    /////////////////////////////////////////////////////
 
-    Portenta_H7_FastTimerInterrupt(TIM_TypeDef* timer = TIMER_SERVO)
+    Portenta_H7_FastTimerInterrupt(TIM_TypeDef* timer = DEFAULT_PORTENTA_H7_TIMER_NO)
     {              
       _timer = timer;
       
@@ -75,11 +87,15 @@ class Portenta_H7_FastTimerInterrupt
       _callback = NULL;      
     };
     
+    /////////////////////////////////////////////////////
+    
     ~Portenta_H7_FastTimerInterrupt()
     {
       if (_hwTimer)
         delete _hwTimer;
     }
+    
+    /////////////////////////////////////////////////////
 
     // frequency (in hertz)
     // No params and duration now. To be added in the future by adding similar functions here
@@ -102,6 +118,8 @@ class Portenta_H7_FastTimerInterrupt
 
       return true;
     }
+    
+    /////////////////////////////////////////////////////
 
     // interval (in microseconds) and duration (in milliseconds). Duration = 0 or not specified => run indefinitely
     // No params and duration now. To be addes in the future by adding similar functions here
@@ -109,11 +127,15 @@ class Portenta_H7_FastTimerInterrupt
     {
       return setFrequency( (float) ( 1000000.0f / interval), callback);
     }
+    
+    /////////////////////////////////////////////////////
 
     void detachInterrupt()
     {
       _hwTimer->detachInterrupt();
     }
+    
+    /////////////////////////////////////////////////////
 
     // Duration (in milliseconds). Duration = 0 or not specified => run indefinitely
     void reattachInterrupt()
@@ -122,5 +144,6 @@ class Portenta_H7_FastTimerInterrupt
     }
 }; // class Portenta_H7_FastTimerInterrupt
 
+/////////////////////////////////////////////////////
 
 #endif      // Portenta_H7_FastTimerInterrupt_h

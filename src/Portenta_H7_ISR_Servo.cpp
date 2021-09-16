@@ -29,16 +29,21 @@
 
 Portenta_H7_ISR_Servo Portenta_H7_ISR_Servos;  // create servo object to control up to 16 servos
 
+/////////////////////////////////////////////////////
 
 void Portenta_H7_ISR_Servo_Handler()
 { 
   Portenta_H7_ISR_Servos.run();
 }
 
+/////////////////////////////////////////////////////
+
 Portenta_H7_ISR_Servo::Portenta_H7_ISR_Servo()
   : numServos (-1), _timerNo(DEFAULT_PORTENTA_H7_TIMER_NO)
 {
 }
+
+/////////////////////////////////////////////////////
 
 void Portenta_H7_ISR_Servo::run()
 {
@@ -70,6 +75,8 @@ void Portenta_H7_ISR_Servo::run()
   }
 }
 
+/////////////////////////////////////////////////////
+
 // find the first available slot
 // return -1 if none found
 int Portenta_H7_ISR_Servo::findFirstFreeSlot()
@@ -92,6 +99,8 @@ int Portenta_H7_ISR_Servo::findFirstFreeSlot()
   // no free slots found
   return -1;
 }
+
+/////////////////////////////////////////////////////
 
 int Portenta_H7_ISR_Servo::setupServo(uint8_t pin, int min, int max)
 {
@@ -125,6 +134,8 @@ int Portenta_H7_ISR_Servo::setupServo(uint8_t pin, int min, int max)
   return servoIndex;
 }
 
+/////////////////////////////////////////////////////
+
 bool Portenta_H7_ISR_Servo::setPosition(unsigned servoIndex, int position)
 {
   if (servoIndex >= MAX_SERVOS)
@@ -146,6 +157,8 @@ bool Portenta_H7_ISR_Servo::setPosition(unsigned servoIndex, int position)
   return false;
 }
 
+/////////////////////////////////////////////////////
+
 // returns last position in degrees if success, or -1 on wrong servoIndex
 int Portenta_H7_ISR_Servo::getPosition(unsigned servoIndex)
 {
@@ -165,6 +178,7 @@ int Portenta_H7_ISR_Servo::getPosition(unsigned servoIndex)
   return -1;
 }
 
+/////////////////////////////////////////////////////
 
 // setPulseWidth will set servo PWM Pulse Width in microseconds, correcponding to certain position in degrees
 // by using PWM, turn HIGH 'pulseWidth' microseconds within REFRESH_INTERVAL (20000us)
@@ -196,6 +210,8 @@ bool Portenta_H7_ISR_Servo::setPulseWidth(unsigned servoIndex, unsigned int puls
   return false;
 }
 
+/////////////////////////////////////////////////////
+
 // returns pulseWidth in microsecs (within min/max range) if success, or 0 on wrong servoIndex
 unsigned int Portenta_H7_ISR_Servo::getPulseWidth(unsigned servoIndex)
 {
@@ -215,6 +231,7 @@ unsigned int Portenta_H7_ISR_Servo::getPulseWidth(unsigned servoIndex)
   return 0;
 }
 
+/////////////////////////////////////////////////////
 
 void Portenta_H7_ISR_Servo::deleteServo(unsigned servoIndex)
 {
@@ -239,6 +256,8 @@ void Portenta_H7_ISR_Servo::deleteServo(unsigned servoIndex)
   }
 }
 
+/////////////////////////////////////////////////////
+
 bool Portenta_H7_ISR_Servo::isEnabled(unsigned servoIndex)
 {
   if (servoIndex >= MAX_SERVOS)
@@ -254,6 +273,8 @@ bool Portenta_H7_ISR_Servo::isEnabled(unsigned servoIndex)
 
   return servo[servoIndex].enabled;
 }
+
+/////////////////////////////////////////////////////
 
 bool Portenta_H7_ISR_Servo::enable(unsigned servoIndex)
 {
@@ -274,6 +295,8 @@ bool Portenta_H7_ISR_Servo::enable(unsigned servoIndex)
   return true;
 }
 
+/////////////////////////////////////////////////////
+
 bool Portenta_H7_ISR_Servo::disable(unsigned servoIndex)
 {
   if (servoIndex >= MAX_SERVOS)
@@ -286,6 +309,8 @@ bool Portenta_H7_ISR_Servo::disable(unsigned servoIndex)
 
   return true;
 }
+
+/////////////////////////////////////////////////////
 
 void Portenta_H7_ISR_Servo::enableAll()
 {
@@ -301,6 +326,8 @@ void Portenta_H7_ISR_Servo::enableAll()
   }
 }
 
+/////////////////////////////////////////////////////
+
 void Portenta_H7_ISR_Servo::disableAll()
 {
   // Disable all servos
@@ -309,6 +336,8 @@ void Portenta_H7_ISR_Servo::disableAll()
     servo[servoIndex].enabled = false;
   }
 }
+
+/////////////////////////////////////////////////////
 
 bool Portenta_H7_ISR_Servo::toggle(unsigned servoIndex)
 {
@@ -319,6 +348,8 @@ bool Portenta_H7_ISR_Servo::toggle(unsigned servoIndex)
 
   return true;
 }
+
+/////////////////////////////////////////////////////
 
 int Portenta_H7_ISR_Servo::getNumServos()
 {
