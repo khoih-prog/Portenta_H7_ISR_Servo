@@ -94,6 +94,10 @@ This library enables you to use `1 Hardware Timer` on an **STM32H747XI-based Por
 ### Currently supported Boards
  
 1. **Portenta_H7 boards** such as Portenta_H7 Rev2 ABX00042, etc., using [**ArduinoCore-mbed mbed_portenta** core](https://github.com/arduino/ArduinoCore-mbed)
+
+<p align="center">
+    <img src="https://github.com/khoih-prog/Portenta_H7_ISR_Servo/raw/main/pics/Pinout_PortentaH7.png">
+</p>
  
 ---
 ---
@@ -349,104 +353,7 @@ This non-being-blocked important feature is absolutely necessary for mission-cri
 
 How to use:
 
-```cpp
-#if !( ( defined(ARDUINO_PORTENTA_H7_M7) || defined(ARDUINO_PORTENTA_H7_M4) ) && defined(ARDUINO_ARCH_MBED) )
-  #error This code is intended to run on the MBED ARDUINO_PORTENTA_H7 platform! Please check your Tools->Board setting.
-#endif
-
-#define TIMER_INTERRUPT_DEBUG       0
-#define ISR_SERVO_DEBUG             1
-
-#include "Portenta_H7_ISR_Servo.h"
-
-// Default is TIMER_SERVO (TIM7 for many boards)
-#define USE_PORTENTA_H7_TIMER_NO          TIM15
-
-// Published values for SG90 servos; adjust if needed
-#define MIN_MICROS      800  //544
-#define MAX_MICROS      2450
-
-#define SERVO_PIN_1       D1
-#define SERVO_PIN_2       D2
-#define SERVO_PIN_3       D3
-#define SERVO_PIN_4       D4
-#define SERVO_PIN_5       D5
-#define SERVO_PIN_6       D6
-
-typedef struct
-{
-  int     servoIndex;
-  uint8_t servoPin;
-} ISR_servo_t;
-
-#define NUM_SERVOS        6
-
-ISR_servo_t ISR_servo[NUM_SERVOS] =
-{
-  { -1, SERVO_PIN_1 }, { -1, SERVO_PIN_2 }, { -1, SERVO_PIN_3 }, { -1, SERVO_PIN_4 }, { -1, SERVO_PIN_5 }, { -1, SERVO_PIN_6 }
-};
-
-void setup()
-{
-  Serial.begin(115200);
-  while (!Serial);
-
-  delay(200);
-
-  Serial.print(F("\nStarting Portenta_H7_MultipleServos on ")); Serial.println(BOARD_NAME);
-  Serial.println(PORTENTA_H7_ISR_SERVO_VERSION);
-
-  //Select Portenta_H7 timer USE_PORTENTA_H7_TIMER_NO
-  Portenta_H7_ISR_Servos.useTimer(USE_PORTENTA_H7_TIMER_NO);
-
-  for (int index = 0; index < NUM_SERVOS; index++)
-  {
-    ISR_servo[index].servoIndex = Portenta_H7_ISR_Servos.setupServo(ISR_servo[index].servoPin, MIN_MICROS, MAX_MICROS);
-
-    if (ISR_servo[index].servoIndex != -1)
-    {
-      Serial.print(F("Setup OK Servo index = ")); Serial.println(ISR_servo[index].servoIndex);
-    }
-    else
-    {
-      Serial.print(F("Setup Failed Servo index = ")); Serial.println(ISR_servo[index].servoIndex);
-    }
-  }
-}
-
-void loop()
-{
-  int position;      // position in degrees
-
-  for (position = 0; position <= 180; position += 5)
-  {
-    // goes from 0 degrees to 180 degrees
-    // in steps of 1 degree
-    for (int index = 0; index < NUM_SERVOS; index++)
-    {
-      Portenta_H7_ISR_Servos.setPosition(ISR_servo[index].servoIndex, (position + index * (180 / NUM_SERVOS)) % 180 );
-    }
-    
-    // waits 1s for the servo to reach the position
-    delay(1000);
-  }
-
-  for (position = 180; position >= 0; position -= 5)
-  {
-    // goes from 0 degrees to 180 degrees
-    // in steps of 1 degree
-    for (int index = 0; index < NUM_SERVOS; index++)
-    {
-      Portenta_H7_ISR_Servos.setPosition(ISR_servo[index].servoIndex, (position + index * (180 / NUM_SERVOS)) % 180);
-    }
-    
-    // waits 1s for the servo to reach the position
-    delay(1000);
-  }
-
-  delay(5000);
-}
-```
+https://github.com/khoih-prog/Portenta_H7_ISR_Servo/blob/8ba85d98564d012410bea8a7e91eea8947dda2b2/examples/Portenta_H7_MultipleServos/Portenta_H7_MultipleServos.ino#L55-L154
 
 ---
 ---
@@ -465,100 +372,8 @@ void loop()
 
 #### 1. File [Portenta_H7_ISR_MultiServos.ino](examples/Portenta_H7_ISR_MultiServos/Portenta_H7_ISR_MultiServos.ino)
 
-```cpp
-#if !( ( defined(ARDUINO_PORTENTA_H7_M7) || defined(ARDUINO_PORTENTA_H7_M4) ) && defined(ARDUINO_ARCH_MBED) )
-  #error This code is intended to run on the MBED ARDUINO_PORTENTA_H7 platform! Please check your Tools->Board setting.
-#endif
+https://github.com/khoih-prog/Portenta_H7_ISR_Servo/blob/8ba85d98564d012410bea8a7e91eea8947dda2b2/examples/Portenta_H7_ISR_MultiServos/Portenta_H7_ISR_MultiServos.ino#L55-L152
 
-#define TIMER_INTERRUPT_DEBUG       0
-#define ISR_SERVO_DEBUG             1
-
-#include "Portenta_H7_ISR_Servo.h"
-
-// Default is TIMER_SERVO (TIM7 for many boards)
-#define USE_PORTENTA_H7_TIMER_NO          TIM15
-
-// Published values for SG90 servos; adjust if needed
-#define MIN_MICROS      800  //544
-#define MAX_MICROS      2450
-
-#define SERVO_PIN_1       D5
-#define SERVO_PIN_2       D6
-
-int servoIndex1  = -1;
-int servoIndex2  = -1;
-
-void setup()
-{
-  Serial.begin(115200);
-  while (!Serial);
-
-  delay(500);
-
-  Serial.print(F("\nStarting Portenta_H7_ISR_MultiServos on ")); Serial.println(BOARD_NAME);
-  Serial.println(PORTENTA_H7_ISR_SERVO_VERSION);
-  
-  //Select Portenta_H7 timer USE_PORTENTA_H7_TIMER_NO
-  Portenta_H7_ISR_Servos.useTimer(USE_PORTENTA_H7_TIMER_NO);
-
-  servoIndex1 = Portenta_H7_ISR_Servos.setupServo(SERVO_PIN_1, MIN_MICROS, MAX_MICROS);
-  servoIndex2 = Portenta_H7_ISR_Servos.setupServo(SERVO_PIN_2, MIN_MICROS, MAX_MICROS);
-
-  if (servoIndex1 != -1)
-    Serial.println(F("Setup Servo1 OK"));
-  else
-    Serial.println(F("Setup Servo1 failed"));
-
-  if (servoIndex2 != -1)
-    Serial.println(F("Setup Servo2 OK"));
-  else
-    Serial.println(F("Setup Servo2 failed"));
-}
-
-void loop()
-{
-  int position;
-
-  if ( ( servoIndex1 != -1) && ( servoIndex2 != -1) )
-  {
-    for (position = 0; position <= 180; position++)
-    {
-      // goes from 0 degrees to 180 degrees
-      // in steps of 1 degree
-
-      if (position % 30 == 0)
-      {
-        Serial.print(F("Servo1 pos = ")); Serial.print(position);
-        Serial.print(F(", Servo2 pos = ")); Serial.println(180 - position);
-      }
-
-      Portenta_H7_ISR_Servos.setPosition(servoIndex1, position);
-      Portenta_H7_ISR_Servos.setPosition(servoIndex2, 180 - position);
-      // waits 30ms for the servo to reach the position
-      delay(30);
-    }
-    
-    delay(5000);
-
-    for (position = 180; position >= 0; position--)
-    {
-      // goes from 180 degrees to 0 degrees
-      if (position % 30 == 0)
-      {
-        Serial.print(F("Servo1 pos = ")); Serial.print(position);
-        Serial.print(F(", Servo2 pos = ")); Serial.println(180 - position);
-      }
-
-      Portenta_H7_ISR_Servos.setPosition(servoIndex1, position);
-      Portenta_H7_ISR_Servos.setPosition(servoIndex2, 180 - position);
-      // waits 30ms for the servo to reach the position
-      delay(30);
-    }
-    
-    delay(5000);
-  }
-}
-```
 ---
 ---
 
