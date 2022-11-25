@@ -62,7 +62,7 @@
 #endif
 
 /////////////////////////////////////////////////////
-  
+
 #include "Portenta_H7_ISR_Servo_Debug.h"
 #include "Portenta_H7_FastTimerInterrupt.h"
 
@@ -103,11 +103,11 @@ class Portenta_H7_ISR_Servo
         delete Portenta_H7_ITimer;
       }
     }
-    
+
     /////////////////////////////////////////////////////
 
     void run();
-    
+
     /////////////////////////////////////////////////////
 
     // useTimer select which timer (0-3) of Portenta_H7 to use for Servos
@@ -117,7 +117,7 @@ class Portenta_H7_ISR_Servo
       _timerNo = timerNo;
       return true;
     }
-    
+
     /////////////////////////////////////////////////////
 
     // Bind servo to the timer and pin, return servoIndex
@@ -164,15 +164,15 @@ class Portenta_H7_ISR_Servo
 
     // returns the number of used servos
     int getNumServos();
-    
+
     /////////////////////////////////////////////////////
 
     // returns the number of available servos
-    int getNumAvailableServos() 
+    int getNumAvailableServos()
     {
       return MAX_SERVOS - numServos;
     };
-    
+
     /////////////////////////////////////////////////////
 
   private:
@@ -181,19 +181,22 @@ class Portenta_H7_ISR_Servo
 #define TIMER_INTERVAL_MICRO        10
 
     /////////////////////////////////////////////////////
-    
+
     void init()
     {
       Portenta_H7_ITimer = new Portenta_H7_FastTimer(_timerNo);
 
       // Interval in microsecs
-      if ( Portenta_H7_ITimer && Portenta_H7_ITimer->attachInterruptInterval(TIMER_INTERVAL_MICRO, (portenta_H7_timer_callback) Portenta_H7_ISR_Servo_Handler ) )
+      if ( Portenta_H7_ITimer
+           && Portenta_H7_ITimer->attachInterruptInterval(TIMER_INTERVAL_MICRO,
+                                                          (portenta_H7_timer_callback) Portenta_H7_ISR_Servo_Handler ) )
       {
         ISR_SERVO_LOGERROR("Starting  ITimer OK");
       }
       else
       {
-        ISR_SERVO_LOGERROR("Fail setup Portenta_H7_ITimer");      }
+        ISR_SERVO_LOGERROR("Fail setup Portenta_H7_ITimer");
+      }
 
       for (int servoIndex = 0; servoIndex < MAX_SERVOS; servoIndex++)
       {
@@ -209,12 +212,12 @@ class Portenta_H7_ISR_Servo
       // Init timerCount
       timerCount  = 1;
     }
-    
+
     /////////////////////////////////////////////////////
 
     // find the first available slot
     int findFirstFreeSlot();
-    
+
     /////////////////////////////////////////////////////
 
     typedef struct
@@ -226,7 +229,7 @@ class Portenta_H7_ISR_Servo
       uint16_t      min;
       uint16_t      max;
     } servo_t;
-    
+
     /////////////////////////////////////////////////////
 
     volatile servo_t servo[MAX_SERVOS];
@@ -236,7 +239,7 @@ class Portenta_H7_ISR_Servo
 
     // timerCount starts at 1, and counting up to (REFRESH_INTERVAL / TIMER_INTERVAL_MICRO) = (20000 / 10) = 2000
     // then reset to 1. Use this to calculate when to turn ON / OFF pulse to servo
-    // For example, servo1 uses pulse width 1000us => 
+    // For example, servo1 uses pulse width 1000us =>
     //    - turned ON when timerCount = 1
     //    - turned OFF when timerCount = 1000 / TIMER_INTERVAL_MICRO = 100
     volatile unsigned long timerCount;

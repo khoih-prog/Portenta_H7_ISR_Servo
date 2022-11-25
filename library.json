@@ -22,7 +22,9 @@
       "tests"
     ]
   },  
+  "license": "MIT",
   "frameworks": "*",
   "platforms": "mbed_portenta", 
-  "examples": "examples/*/*/*.ino"
+  "examples": "examples/*/*/*.ino",
+  "headers": ["Portenta_H7_ISR_Servo.h"]
 }

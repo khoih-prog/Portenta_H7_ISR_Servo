@@ -32,7 +32,7 @@ Portenta_H7_ISR_Servo Portenta_H7_ISR_Servos;  // create servo object to control
 /////////////////////////////////////////////////////
 
 void Portenta_H7_ISR_Servo_Handler()
-{ 
+{
   Portenta_H7_ISR_Servos.run();
 }
 
@@ -145,10 +145,11 @@ bool Portenta_H7_ISR_Servo::setPosition(unsigned servoIndex, int position)
   if ( servo[servoIndex].enabled && (servo[servoIndex].pin <= PORTENTA_H7_MAX_PIN) )
   {
     servo[servoIndex].position  = position;
-    servo[servoIndex].count     = map(position, 0, 180, servo[servoIndex].min, servo[servoIndex].max) / TIMER_INTERVAL_MICRO;
+    servo[servoIndex].count     = map(position, 0, 180, servo[servoIndex].min,
+                                      servo[servoIndex].max) / TIMER_INTERVAL_MICRO;
 
     ISR_SERVO_LOGDEBUG1("Idx =", servoIndex);
-    ISR_SERVO_LOGDEBUG3("cnt =", servo[servoIndex].count, ", pos =",servo[servoIndex].position);
+    ISR_SERVO_LOGDEBUG3("cnt =", servo[servoIndex].count, ", pos =", servo[servoIndex].position);
 
     return true;
   }
@@ -169,7 +170,7 @@ int Portenta_H7_ISR_Servo::getPosition(unsigned servoIndex)
   if ( servo[servoIndex].enabled && (servo[servoIndex].pin <= PORTENTA_H7_MAX_PIN) )
   {
     ISR_SERVO_LOGERROR1("Idx =", servoIndex);
-    ISR_SERVO_LOGERROR3("cnt =", servo[servoIndex].count, ", pos =",servo[servoIndex].position);
+    ISR_SERVO_LOGERROR3("cnt =", servo[servoIndex].count, ", pos =", servo[servoIndex].position);
 
     return (servo[servoIndex].position);
   }
@@ -201,7 +202,7 @@ bool Portenta_H7_ISR_Servo::setPulseWidth(unsigned servoIndex, unsigned int puls
     servo[servoIndex].position  = map(pulseWidth, servo[servoIndex].min, servo[servoIndex].max, 0, 180);
 
     ISR_SERVO_LOGERROR1("Idx =", servoIndex);
-    ISR_SERVO_LOGERROR3("cnt =", servo[servoIndex].count, ", pos =",servo[servoIndex].position);
+    ISR_SERVO_LOGERROR3("cnt =", servo[servoIndex].count, ", pos =", servo[servoIndex].position);
 
     return true;
   }
@@ -222,7 +223,7 @@ unsigned int Portenta_H7_ISR_Servo::getPulseWidth(unsigned servoIndex)
   if ( servo[servoIndex].enabled && (servo[servoIndex].pin <= PORTENTA_H7_MAX_PIN) )
   {
     ISR_SERVO_LOGERROR1("Idx =", servoIndex);
-    ISR_SERVO_LOGERROR3("cnt =", servo[servoIndex].count, ", pos =",servo[servoIndex].position);
+    ISR_SERVO_LOGERROR3("cnt =", servo[servoIndex].count, ", pos =", servo[servoIndex].position);
 
     return (servo[servoIndex].count * TIMER_INTERVAL_MICRO );
   }
@@ -318,8 +319,8 @@ void Portenta_H7_ISR_Servo::enableAll()
 
   for (int servoIndex = 0; servoIndex < MAX_SERVOS; servoIndex++)
   {
-    if ( (servo[servoIndex].count >= servo[servoIndex].min / TIMER_INTERVAL_MICRO ) && !servo[servoIndex].enabled 
-      && (servo[servoIndex].pin <= PORTENTA_H7_MAX_PIN) )
+    if ( (servo[servoIndex].count >= servo[servoIndex].min / TIMER_INTERVAL_MICRO ) && !servo[servoIndex].enabled
+         && (servo[servoIndex].pin <= PORTENTA_H7_MAX_PIN) )
     {
       servo[servoIndex].enabled = true;
     }

@@ -40,7 +40,7 @@
    considerable power, we will connect servo power to the VBat pin of the STM32 (located
    near the USB connector). THIS IS ONLY APPROPRIATE FOR SMALL SERVOS.
 
-   We could also connect servo power to a separate external power source (as long as we connect all of 
+   We could also connect servo power to a separate external power source (as long as we connect all of
    the grounds (STM32, servo, and external power).
    In this example, we just connect STM32 ground to servo ground. The servo signal pins
    connect to any available GPIO pins on the STM32 (in this example, we use pins (D1-D6).
@@ -91,11 +91,13 @@ ISR_servo_t ISR_servo[NUM_SERVOS] =
 void setup()
 {
   Serial.begin(115200);
+
   while (!Serial);
 
   delay(200);
 
-  Serial.print(F("\nStarting Portenta_H7_MultipleRandomServos on ")); Serial.println(BOARD_NAME);
+  Serial.print(F("\nStarting Portenta_H7_MultipleRandomServos on "));
+  Serial.println(BOARD_NAME);
   Serial.println(PORTENTA_H7_ISR_SERVO_VERSION);
 
   //Select Portenta_H7 timer USE_PORTENTA_H7_TIMER_NO
@@ -107,11 +109,13 @@ void setup()
 
     if (ISR_servo[index].servoIndex != -1)
     {
-      Serial.print(F("Setup OK Servo index = ")); Serial.println(ISR_servo[index].servoIndex);
+      Serial.print(F("Setup OK Servo index = "));
+      Serial.println(ISR_servo[index].servoIndex);
     }
     else
     {
-      Serial.print(F("Setup Failed Servo index = ")); Serial.println(ISR_servo[index].servoIndex);
+      Serial.print(F("Setup Failed Servo index = "));
+      Serial.println(ISR_servo[index].servoIndex);
     }
   }
 }
@@ -132,41 +136,42 @@ void loop()
 
   position = 0;
   Serial.println(F("Servos @ 0 degree"));
-  
+
   for (int index = 0; index < NUM_SERVOS; index++)
   {
     Portenta_H7_ISR_Servos.setPosition(ISR_servo[index].servoIndex, position );
     printServoInfo(index);
   }
+
   // waits 5s between test
   delay(5000);
 
   position = 90;
   Serial.println(F("Servos @ 90 degree"));
-  
+
   for (int index = 0; index < NUM_SERVOS; index++)
   {
     Portenta_H7_ISR_Servos.setPosition(ISR_servo[index].servoIndex, position );
     printServoInfo(index);
   }
-  
+
   // waits 5s between test
   delay(5000);
 
   position = 180;
   Serial.println(F("Servos @ 180 degree"));
-  
+
   for (int index = 0; index < NUM_SERVOS; index++)
   {
     Portenta_H7_ISR_Servos.setPosition(ISR_servo[index].servoIndex, position );
     printServoInfo(index);
   }
-  
+
   // waits 5s between test
   delay(5000);
 
   Serial.println(F("Servos sweeps from 0-180 degress"));
-  
+
   for (position = 0; position <= 180; position += 5)
   {
     // goes from 0 degrees to 180 degrees
@@ -175,16 +180,16 @@ void loop()
     {
       Portenta_H7_ISR_Servos.setPosition(ISR_servo[index].servoIndex, position );
     }
-    
+
     // waits 50ms for the servo to reach the position
     delay(50);
   }
-  
+
   // waits 5s between test
   delay(5000);
 
   Serial.println(F("Servos sweeps from 180-0 degress"));
-  
+
   for (position = 180; position >= 0; position -= 5)
   {
     // goes from 0 degrees to 180 degrees
@@ -193,16 +198,16 @@ void loop()
     {
       Portenta_H7_ISR_Servos.setPosition(ISR_servo[index].servoIndex, position );
     }
-    
+
     // waits 50ms for the servo to reach the position
     delay(50);
   }
-  
+
   // waits 5s between test
   delay(5000);
 
   Serial.println(F("Servos, index depending, be somewhere from 0-180 degress"));
-  
+
   for (position = 0; position <= 180; position += 5)
   {
     // goes from 0 degrees to 180 degrees
@@ -211,15 +216,15 @@ void loop()
     {
       Portenta_H7_ISR_Servos.setPosition(ISR_servo[index].servoIndex, (position + index * (180 / NUM_SERVOS)) % 180 );
     }
-    
+
     // waits 50ms for the servo to reach the position
     delay(50);
   }
-  
+
   delay(5000);
 
   Serial.println(F("Servos, index depending, be somewhere from 180-0 degress"));
-  
+
   for (position = 180; position >= 0; position -= 5)
   {
     // goes from 0 degrees to 180 degrees
@@ -228,11 +233,11 @@ void loop()
     {
       Portenta_H7_ISR_Servos.setPosition(ISR_servo[index].servoIndex, (position + index * (180 / NUM_SERVOS)) % 180 );
     }
-    
+
     // waits 50ms for the servo to reach the position
     delay(50);
   }
-  
+
   // waits 5s between test
   delay(5000);
 

@@ -40,7 +40,7 @@
    considerable power, we will connect servo power to the VBat pin of the STM32 (located
    near the USB connector). THIS IS ONLY APPROPRIATE FOR SMALL SERVOS.
 
-   We could also connect servo power to a separate external power source (as long as we connect all of 
+   We could also connect servo power to a separate external power source (as long as we connect all of
    the grounds (STM32, servo, and external power).
    In this example, we just connect STM32 ground to servo ground. The servo signal pins
    connect to any available GPIO pins on the STM32 (in this example, we use pins (D1-D6).
@@ -77,13 +77,15 @@ int servoIndex2  = -1;
 void setup()
 {
   Serial.begin(115200);
+
   while (!Serial);
 
   delay(500);
 
-  Serial.print(F("\nStarting Portenta_H7_ISR_MultiServos on ")); Serial.println(BOARD_NAME);
+  Serial.print(F("\nStarting Portenta_H7_ISR_MultiServos on "));
+  Serial.println(BOARD_NAME);
   Serial.println(PORTENTA_H7_ISR_SERVO_VERSION);
-  
+
   //Select Portenta_H7 timer USE_PORTENTA_H7_TIMER_NO
   Portenta_H7_ISR_Servos.useTimer(USE_PORTENTA_H7_TIMER_NO);
 
@@ -114,8 +116,10 @@ void loop()
 
       if (position % 30 == 0)
       {
-        Serial.print(F("Servo1 pos = ")); Serial.print(position);
-        Serial.print(F(", Servo2 pos = ")); Serial.println(180 - position);
+        Serial.print(F("Servo1 pos = "));
+        Serial.print(position);
+        Serial.print(F(", Servo2 pos = "));
+        Serial.println(180 - position);
       }
 
       Portenta_H7_ISR_Servos.setPosition(servoIndex1, position);
@@ -123,7 +127,7 @@ void loop()
       // waits 30ms for the servo to reach the position
       delay(30);
     }
-    
+
     delay(5000);
 
     for (position = 180; position >= 0; position--)
@@ -131,8 +135,10 @@ void loop()
       // goes from 180 degrees to 0 degrees
       if (position % 30 == 0)
       {
-        Serial.print(F("Servo1 pos = ")); Serial.print(position);
-        Serial.print(F(", Servo2 pos = ")); Serial.println(180 - position);
+        Serial.print(F("Servo1 pos = "));
+        Serial.print(position);
+        Serial.print(F(", Servo2 pos = "));
+        Serial.println(180 - position);
       }
 
       Portenta_H7_ISR_Servos.setPosition(servoIndex1, position);
@@ -140,7 +146,7 @@ void loop()
       // waits 30ms for the servo to reach the position
       delay(30);
     }
-    
+
     delay(5000);
   }
 }

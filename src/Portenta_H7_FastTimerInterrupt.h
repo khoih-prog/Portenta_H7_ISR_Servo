@@ -44,7 +44,7 @@
 #if defined(TIMER_SERVO)
   #define DEFAULT_PORTENTA_H7_TIMER_NO          TIMER_SERVO       // TIM7 for many boards
 #else
-  #define DEFAULT_PORTENTA_H7_TIMER_NO          TIM7              // TIM7 for many boards  
+  #define DEFAULT_PORTENTA_H7_TIMER_NO          TIM7              // TIM7 for many boards
 #endif
 
 // TIMER_NUM defined in stm32/timer.h
@@ -61,40 +61,40 @@ typedef void (*portenta_H7_timer_callback)  ();
 class Portenta_H7_FastTimerInterrupt
 {
   private:
-  
+
     TIM_TypeDef*    _timer;
     HardwareTimer*  _hwTimer = NULL;
-    
+
     float             _frequency;       // Timer frequency
     uint64_t          _timerCount;      // count to activate timer
-    
+
     portenta_H7_timer_callback _callback;        // pointer to the callback function
-    
+
     /////////////////////////////////////////////////////
 
   public:
-  
+
     /////////////////////////////////////////////////////
 
     Portenta_H7_FastTimerInterrupt(TIM_TypeDef* timer = DEFAULT_PORTENTA_H7_TIMER_NO)
-    {              
+    {
       _timer = timer;
-      
+
       _hwTimer = new HardwareTimer(_timer);
-           
+
       _frequency  = 0;
       _timerCount = 0;
-      _callback = NULL;      
+      _callback = NULL;
     };
-    
+
     /////////////////////////////////////////////////////
-    
+
     ~Portenta_H7_FastTimerInterrupt()
     {
       if (_hwTimer)
         delete _hwTimer;
     }
-    
+
     /////////////////////////////////////////////////////
 
     // frequency (in hertz)
@@ -105,7 +105,7 @@ class Portenta_H7_FastTimerInterrupt
       // Will use later if very low frequency is needed.
       _frequency  = 1000000;
       _timerCount = (uint32_t) _frequency / frequency;
-      
+
       ISR_SERVO_LOGERROR1(F("Portenta_H7_FastTimerInterrupt: Timer Input Freq (Hz) ="), _hwTimer->getTimerClkFreq());
       ISR_SERVO_LOGERROR3(F("Frequency ="), _frequency, F(", _count ="), (uint32_t) (_timerCount));
 
@@ -118,7 +118,7 @@ class Portenta_H7_FastTimerInterrupt
 
       return true;
     }
-    
+
     /////////////////////////////////////////////////////
 
     // interval (in microseconds) and duration (in milliseconds). Duration = 0 or not specified => run indefinitely
@@ -127,14 +127,14 @@ class Portenta_H7_FastTimerInterrupt
     {
       return setFrequency( (float) ( 1000000.0f / interval), callback);
     }
-    
+
     /////////////////////////////////////////////////////
 
     void detachInterrupt()
     {
       _hwTimer->detachInterrupt();
     }
-    
+
     /////////////////////////////////////////////////////
 
     // Duration (in milliseconds). Duration = 0 or not specified => run indefinitely

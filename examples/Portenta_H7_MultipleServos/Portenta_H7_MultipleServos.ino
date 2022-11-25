@@ -40,7 +40,7 @@
    considerable power, we will connect servo power to the VBat pin of the STM32 (located
    near the USB connector). THIS IS ONLY APPROPRIATE FOR SMALL SERVOS.
 
-   We could also connect servo power to a separate external power source (as long as we connect all of 
+   We could also connect servo power to a separate external power source (as long as we connect all of
    the grounds (STM32, servo, and external power).
    In this example, we just connect STM32 ground to servo ground. The servo signal pins
    connect to any available GPIO pins on the STM32 (in this example, we use pins (D1-D6).
@@ -91,11 +91,13 @@ ISR_servo_t ISR_servo[NUM_SERVOS] =
 void setup()
 {
   Serial.begin(115200);
+
   while (!Serial);
 
   delay(200);
 
-  Serial.print(F("\nStarting Portenta_H7_MultipleServos on ")); Serial.println(BOARD_NAME);
+  Serial.print(F("\nStarting Portenta_H7_MultipleServos on "));
+  Serial.println(BOARD_NAME);
   Serial.println(PORTENTA_H7_ISR_SERVO_VERSION);
 
   //Select Portenta_H7 timer USE_PORTENTA_H7_TIMER_NO
@@ -107,11 +109,13 @@ void setup()
 
     if (ISR_servo[index].servoIndex != -1)
     {
-      Serial.print(F("Setup OK Servo index = ")); Serial.println(ISR_servo[index].servoIndex);
+      Serial.print(F("Setup OK Servo index = "));
+      Serial.println(ISR_servo[index].servoIndex);
     }
     else
     {
-      Serial.print(F("Setup Failed Servo index = ")); Serial.println(ISR_servo[index].servoIndex);
+      Serial.print(F("Setup Failed Servo index = "));
+      Serial.println(ISR_servo[index].servoIndex);
     }
   }
 }
@@ -128,7 +132,7 @@ void loop()
     {
       Portenta_H7_ISR_Servos.setPosition(ISR_servo[index].servoIndex, (position + index * (180 / NUM_SERVOS)) % 180 );
     }
-    
+
     // waits 1s for the servo to reach the position
     delay(1000);
   }
@@ -141,7 +145,7 @@ void loop()
     {
       Portenta_H7_ISR_Servos.setPosition(ISR_servo[index].servoIndex, (position + index * (180 / NUM_SERVOS)) % 180);
     }
-    
+
     // waits 1s for the servo to reach the position
     delay(1000);
   }

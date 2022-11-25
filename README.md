@@ -6,7 +6,11 @@
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](#Contributing)
 [![GitHub issues](https://img.shields.io/github/issues/khoih-prog/Portenta_H7_ISR_Servo.svg)](http://github.com/khoih-prog/Portenta_H7_ISR_Servo/issues)
 
-<a href="https://www.buymeacoffee.com/khoihprog6" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 50px !important;width: 181px !important;" ></a>
+
+<a href="https://www.buymeacoffee.com/khoihprog6" title="Donate to my libraries using BuyMeACoffee"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Donate to my libraries using BuyMeACoffee" style="height: 50px !important;width: 181px !important;" ></a>
+<a href="https://www.buymeacoffee.com/khoihprog6" title="Donate to my libraries using BuyMeACoffee"><img src="https://img.shields.io/badge/buy%20me%20a%20coffee-donate-orange.svg?logo=buy-me-a-coffee&logoColor=FFDD00" style="height: 20px !important;width: 200px !important;" ></a>
+<a href="https://profile-counter.glitch.me/khoih-prog/count.svg" title="Total khoih-prog Visitor count"><img src="https://profile-counter.glitch.me/khoih-prog/count.svg" style="height: 30px;width: 200px;"></a>
+<a href="https://profile-counter.glitch.me/khoih-prog-Portenta_H7_ISR_Servo/count.svg" title="Portenta_H7_ISR_Servo Visitor count"><img src="https://profile-counter.glitch.me/khoih-prog-Portenta_H7_ISR_Servo/count.svg" style="height: 30px;width: 200px;"></a>
 
 
 ---
@@ -98,7 +102,7 @@ This library enables you to use `1 Hardware Timer` on an **STM32H747XI-based Por
 ## Prerequisites
 
  1. [`Arduino IDE 1.8.19+` for Arduino](https://github.com/arduino/Arduino). [![GitHub release](https://img.shields.io/github/release/arduino/Arduino.svg)](https://github.com/arduino/Arduino/releases/latest)
- 2. [`ArduinoCore-mbed mbed_portenta core 2.7.2+`](https://github.com/arduino/ArduinoCore-mbed) for Arduino **Portenta_H7** boards, such as **Portenta_H7 Rev2 ABX00042, etc.**. [![GitHub release](https://img.shields.io/github/release/arduino/ArduinoCore-mbed.svg)](https://github.com/arduino/ArduinoCore-mbed/releases/latest)
+ 2. [`ArduinoCore-mbed mbed_portenta core 3.4.1+`](https://github.com/arduino/ArduinoCore-mbed) for Arduino **Portenta_H7** boards, such as **Portenta_H7 Rev2 ABX00042, etc.**. [![GitHub release](https://img.shields.io/github/release/arduino/ArduinoCore-mbed.svg)](https://github.com/arduino/ArduinoCore-mbed/releases/latest)
 
 ---
 
@@ -122,7 +126,7 @@ Another way to install is to:
 
 1. Install [VS Code](https://code.visualstudio.com/)
 2. Install [PlatformIO](https://platformio.org/platformio-ide)
-3. Install [**Portenta_H7_ISR_Servo** library](https://platformio.org/lib/show/12832/Portenta_H7_ISR_Servo) by using [Library Manager](https://platformio.org/lib/show/12832/Portenta_H7_ISR_Servo/installation). Search for **Portenta_H7_ISR_Servo** in [Platform.io Author's Libraries](https://platformio.org/lib/search?query=author:%22Khoi%20Hoang%22)
+3. Install [**Portenta_H7_ISR_Servo** library](https://registry.platformio.org/libraries/khoih-prog/Portenta_H7_ISR_Servo) by using [Library Manager](https://registry.platformio.org/libraries/khoih-prog/Portenta_H7_ISR_Servo/installation). Search for **Portenta_H7_ISR_Servo** in [Platform.io Author's Libraries](https://platformio.org/lib/search?query=author:%22Khoi%20Hoang%22)
 4. Use included [platformio.ini](platformio/platformio.ini) file from examples to ensure that all dependent libraries will installed automatically. Please visit documentation for the other options and examples at [Project Configuration File](https://docs.platformio.org/page/projectconf.html)
 
 ---
@@ -132,12 +136,12 @@ Another way to install is to:
 
 #### 1. For Portenta_H7 boards using Arduino IDE in Linux
 
-  **To be able to upload firmware to Portenta_H7 using Arduino IDE in Linux (Ubuntu, etc.)**, you have to copy the file [portenta_post_install.sh](Packages_Patches/arduino/hardware/mbed_portenta/2.4.1/portenta_post_install.sh) into mbed_portenta directory (~/.arduino15/packages/arduino/hardware/mbed_portenta/2.4.1/portenta_post_install.sh). 
+  **To be able to upload firmware to Portenta_H7 using Arduino IDE in Linux (Ubuntu, etc.)**, you have to copy the file [portenta_post_install.sh](Packages_Patches/arduino/hardware/mbed_portenta/3.4.1/portenta_post_install.sh) into mbed_portenta directory (~/.arduino15/packages/arduino/hardware/mbed_portenta/3.4.1/portenta_post_install.sh). 
   
   Then run the following command using `sudo`
   
 ```
-$ cd ~/.arduino15/packages/arduino/hardware/mbed_portenta/2.4.1
+$ cd ~/.arduino15/packages/arduino/hardware/mbed_portenta/3.4.1
 $ chmod 755 portenta_post_install.sh
 $ sudo ./portenta_post_install.sh
 ```
@@ -150,9 +154,9 @@ This will create the file `/etc/udev/rules.d/49-portenta_h7.rules` as follows:
 SUBSYSTEMS=="usb", ATTRS{idVendor}=="2341", ATTRS{idProduct}=="035b", GROUP="plugdev", MODE="0666"
 ```
 
-Supposing the ArduinoCore-mbed core version is 2.4.1. Now only one file must be copied into the directory:
+Supposing the ArduinoCore-mbed core version is 3.4.1. Now only one file must be copied into the directory:
 
-- `~/.arduino15/packages/arduino/hardware/mbed_portenta/2.4.1/portenta_post_install.sh`
+- `~/.arduino15/packages/arduino/hardware/mbed_portenta/3.4.1/portenta_post_install.sh`
 
 Whenever a new version is installed, remember to copy this files into the new version directory. For example, new version is x.yy.zz
 
@@ -190,7 +194,7 @@ To be sure which Timer is available for the board you're using, check the Core P
 
 The information will be as follows:
 
-```
+```cpp
 typedef struct
 {
   __IO uint32_t CR1;         /*!< TIM control register 1,                   Address offset: 0x00 */
@@ -225,7 +229,7 @@ typedef struct
 
 and
 
-```
+```cpp
 #define PERIPH_BASE            0x40000000UL /*!< Base address of : AHB/ABP Peripherals   
 /*!< Peripheral memory map */
 #define APB1PERIPH_BASE        PERIPH_BASE
@@ -314,7 +318,7 @@ This is the temporary list for Portenta_H7 Timers which can be used. The availab
 
 ### New functions
 
-```
+```cpp
 // returns last position in degrees if success, or -1 on wrong servoIndex
 int getPosition(unsigned servoIndex);
 
@@ -345,7 +349,7 @@ This non-being-blocked important feature is absolutely necessary for mission-cri
 
 How to use:
 
-```
+```cpp
 #if !( ( defined(ARDUINO_PORTENTA_H7_M7) || defined(ARDUINO_PORTENTA_H7_M4) ) && defined(ARDUINO_ARCH_MBED) )
   #error This code is intended to run on the MBED ARDUINO_PORTENTA_H7 platform! Please check your Tools->Board setting.
 #endif
@@ -563,7 +567,7 @@ void loop()
 ### 1. Portenta_H7_MultipleRandomServos on PORTENTA_H7_M7
 
 
-```
+```cpp
 Starting Portenta_H7_MultipleRandomServos on PORTENTA_H7_M7
 Portenta_H7_ISR_Servo v1.0.0
 [ISR_SERVO] Portenta_H7_FastTimerInterrupt: Timer Input Freq (Hz) = 200000000
@@ -645,7 +649,7 @@ Servos @ 180 degree
 ### 2. Portenta_H7_MultipleServos on PORTENTA_H7_M7
 
 
-```
+```cpp
 Starting Portenta_H7_MultipleServos on PORTENTA_H7_M7
 Portenta_H7_ISR_Servo v1.0.0
 [ISR_SERVO] Portenta_H7_FastTimerInterrupt: Timer Input Freq (Hz) = 200000000
@@ -663,7 +667,7 @@ Setup OK Servo index = 5
 
 ### 3. Portenta_H7_ISR_MultiServos on PORTENTA_H7_M7
 
-```
+```cpp
 Starting Portenta_H7_ISR_MultiServos on PORTENTA_H7_M7
 Portenta_H7_ISR_Servo v1.0.0
 [ISR_SERVO] Portenta_H7_FastTimerInterrupt: Timer Input Freq (Hz) = 200000000
@@ -734,6 +738,8 @@ Submit issues to: [Portenta_H7_ISR_Servo issues](https://github.com/khoih-prog/P
 1. Add functions `getPosition()` and `getPulseWidth()`
 2. Optimize the code
 3. Add more complicated examples
+4. Add astyle using `allman` style. Restyle the library
+
 
 ---
 ---
@@ -763,4 +769,4 @@ If you want to contribute to this project:
 
 ## Copyright
 
-Copyright 2021- Khoi Hoang
+Copyright (c) 2021- Khoi Hoang
